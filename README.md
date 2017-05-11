@@ -1,11 +1,11 @@
-#clone the repos listed as submodules
+# clone the repos listed as submodules
 
 ```
 git submodule init
 git submodule update
 ```
 
-#build
+# build
 
 ```
 latexmk -r latexmkrc.<OS>
@@ -14,7 +14,7 @@ cd presentation
 latexmk -r latexmkrc.<OS>
 ```
 
-#Create a diff marked pdf
+# Create a diff marked pdf
 
 ## download git-latexdiff
 
