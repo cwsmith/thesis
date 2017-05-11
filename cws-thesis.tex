@@ -1,0 +1,83 @@
+\documentclass[chap]{thesis}
+%indent subsequent lines of captions
+\usepackage[labelsep=period,justification=centering]{caption}
+%bold caption (needed with caption package to restore boldface.)
+\renewcommand{\captionfont}{\bfseries}
+%notes to self in color
+\usepackage{color}
+%Dan: sorts citations like [5, 3, 15] -> [3, 5, 15] !
+% -- courtesy of Dan Ibanez
+\usepackage{cite}
+%Dan: fixes the "numbering starts in the list of figures" problem !
+%http://tex.stackexchange.com/questions/36304/ignore-citations-in-captions-in-list-of-figures-when-numbering
+%http://ctan.mackichan.com/bibliography/bibtex/contrib/doc/btxFAQ.pdf%
+% -- courtesy of Dan Ibanez
+\usepackage{notoccite}
+%math
+\usepackage{amsmath}
+\usepackage{amssymb}
+%figures - convert eps to pdf files for pdflatex
+\usepackage{graphicx}
+\usepackage{epstopdf}
+%algorithms and pseudo code
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+%fancy captions for figures
+\usepackage{subcaption}
+%units for parma tables
+\usepackage{siunitx}
+%formatting control
+\usepackage{placeins}
+%import tex and associated files from sub-dirs
+\usepackage{import}
+%Inferior PDF viewers (Adobe Acrobat lol) create red/green
+%blocking around links.
+%When using hyperref, but you can't just tell OGE their PDF
+%viewers are terrible.
+%When submitting your thesis, comment out hyperref
+% -- courtesy of Dan Ibanez
+\usepackage{hyperref}
+%verbatim code listings
+\usepackage{listings}
+\lstset{language={},basicstyle=\footnotesize\ttfamily}
+
+%The IEEE 2016 Editorial Style Manual does not allow breaks after the ':' char
+% so we add it to the default 'url.sty' list of nobreak chars.
+\renewcommand*{\UrlNoBreaks}{\do\(\do\[\do\{\do\<\do\:}%
+
+%The IEEE 2016 Editorial Style Manual uses 'Fig.' instead of 'Figure'
+\renewcommand{\figurename}{Fig.}
+
+% Attribution of previously published work
+% -- courtesy of Justin Lapre
+% note, I had to disable the 'alt.interword.spacing' in the IEEE bst file
+% https://github.com/SCOREC/scorec-refs/commit/a35abe0e1fe55786c983c65e532636b2beb85a06
+% to avoid problems with urls in references
+\makeatletter
+\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\makeatother
+\usepackage{bibentry}
+\nobibliography*
+
+%formatting parma tables {
+\newcolumntype{F}[2]{
+  S[table-format=#1.#2,round-integer-to-decimal,round-mode=places,round-precision=#2]%
+}
+\newcolumntype{E}[3]{
+  S[table-format=#1.#2,round-mode=places,round-precision=#2,table-figures-exponent=#3]%
+}
+%end table formatting }
+
+\begin{document}
+\include{title-phd}
+\include{ack}
+\include{abstract}
+\include{intro}
+\include{parma}
+\include{workflows}
+\include{inmem}
+\include{applications}
+\include{conclusion}
+\include{rpibib}
+\include{appendix}
+\end{document}

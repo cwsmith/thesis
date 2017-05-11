@@ -1,0 +1,6 @@
+$latex="latex -interaction errorstopmode %O %S";
+$bibtex="bibtex -min-crossrefs=20 %O %S";
+$out_dir = 'out';
+$pdf_mode=1;
+@default_files = ( 'refs_*.tex' );
+$pdf_previewer = 'zathura %S';

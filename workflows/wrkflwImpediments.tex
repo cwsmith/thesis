@@ -1,0 +1,67 @@
+\section{Approach to Eliminating Technical Impediments}\label{sec:impediments}
+
+The execution of parallel simulations typically requires a workflow that couples
+multiple simulation procedures.
+For example, a single physics simulation requires linking geometric modeling
+systems with mesh generators and a mesh-based solver.
+For multiple reasons, ranging from a single package's best practices and
+validation processes, to the interactions of multiple organizations or companies
+doing different steps in the process, these capabilities are typically not provided
+within a single software system and thus the effective coupling of multiple
+software packages is critical.
+The need to couple packages becomes more acute in multi-physics and multi-scale
+problems where procedures based on different models using different
+physical parameters must be coupled across
+scales~\cite{amsiDelalondre2010,FrantzDale2010}.
+The ability to support these workflows is made even more complex when specific
+computationally intensive simulation steps must be executed on a massively
+parallel computer.
+One approach to couple software packages for the effective construction
+of simulation workflows is through the use of functional interfaces.
+
+The most effective way to design simulation workflows are based on geometric
+models of the computational domain.
+Accordingly, CAE analysis tools have begun to move from mesh-based problem
+definitions to more geometry-based definitions.
+These simulations are typically executed using a graphical user interface that
+can accept CAD information.
+Many of these interfaces are oriented toward a specific vendor's set of CAE
+analysis tools while some others are oriented to interact through APIs
+supporting general interactions with geometry~\cite{BeaWal} and simulation
+attribute information.
+In those projects where the workflow developed employed software from several
+sources, we found using a generalized interface that can interact with geometry,
+attributes, and analysis procedures to be quite
+effective~\cite{ibanez2016pumi,tautges2001cgm,haimesEngSketchPad2013}.
+Given the problem definition, most analysis procedures require the domain be
+decomposed into a mesh of simple shapes.
+The greatest flexibility is provided when the parallel analysis procedures can
+accept an unstructured mesh; a decomposition of the domain into elements of
+various topological type (e.g., tetrahedrons, hexahedrons, prisms, and pyramids
+in 3D), order (i.e., straight sided or curved), quality, and volume.
+Mesh-based finite element~\cite{hughes2012finite} and
+finite volume~\cite{abgrallFiniteVolume2016} analysis methods are available for
+many classes of problems.
+The use of these methods allows both the application of fully automatic mesh
+generation and adaptive mesh control.
+
+Workflow development for various academic and industrial applications has
+provided valuable lessons on the design of interoperable interfaces.
+One key lesson is that there are some common high-level interfaces that can be
+defined for coupling many of the simulation procedures.
+These interfaces are primarily focused on methods to load inputs into the
+data structures of analysis procedures, and subsequently extract
+simulation data from those structures.
+For procedures using a geometry-based problem definition and a solution field
+interface, this approach allows the fast integration of multiple
+meshing, analysis and visualization procedures, as well as supporting the
+ability to quickly replace any of their implementations.
+The typical initial implementation of these interface methods tend to pass
+information between major procedures using files.
+Although the most straightforward implementation, file I/O (serial or parallel)
+is a major bottleneck in the execution of large-scale parallel simulations.
+When the method used to execute the coupling of procedures is through APIs, it
+is conceptually straightforward to bypass the use of files and transfer
+information directly between data structures.
+However, the effective implementation, given existing software packages,
+is reasonably complex.

@@ -1,0 +1,99 @@
+\chapter{CONCLUSIONS AND FUTURE WORK}
+\label{chp:conclusion}
+\section{Conclusions}
+
+As we move towards the exascale computers being considered \cite{Cross10,Exa10},
+it is clear that one of the few effective means to construct parallel adaptive
+simulations is by using in-memory interfaces that avoid filesystem interactions.
+Of course, the cost of refactoring existing large-scale parallel partial
+differential equation solvers to fully interact with the type of structures and
+methods used by mesh adaptation components is an extremely expensive and
+time-consuming process.
+To address these costs, we presented approaches for in-memory integration of
+existing solver components with mesh adaptation components, discussed how code
+changes can be minimized, and demonstrated the performance advantage within
+adaptive simulations.
+Demonstrations with the massively parallel computational fluid dynamics, solid
+mechanics, and electromagnetics adaptive workflows showed orders of magnitude
+performance improvements in I/O procedures using in-memory coupling instead of
+files at up to 16Ki processes of the ALCF Theta system.
+In addition to efforts on developing in-memory approaches with the PHASTA,
+Albany, and Omega3P solvers, efforts are underway to interface other
+state-of-the-art solvers including NASA's FUN3D~\cite{anderson1999achieving} and
+LLNL's MFEM~\cite{mfem-library}.
+
+Parallel scalability of these workflow components is maintained with
+new methods to dynamically balance the computational domain.
+These methods work directly on the unstructured mesh alongside traditional graph
+and geometric methods to quickly reduce the source of imbalance the
+consuming workflow component is sensitive to.
+This approach improves the linear algebra work performance of PHASTA
+computational fluid dynamics by 28\% over a graph-based partition, and improves
+scaling from 0.82 to 1.14, on 512Ki processes of the ALCF Mira system.
+
+As the high performance computing community prepares for near-exascale systems
+at the national laboratories, and near-petascale systems become the norm for academia and
+advanced industry users, we continue to advance parallel unstructured mesh-based
+simulation technologies for efficiently exploiting the massive amount of
+computing power on hand and on the horizon.
+The challenge is clear; adapt to hardware changes and application needs by
+applying new programming and algorithmic approaches while maintaining support
+for the existing user base.
+We address this challenge by focusing a significant portion of our efforts on
+leveraging the wealth of existing components and the thousands of person-hours
+invested in them.
+In the era of distributed memory message passing between many-core nodes, this
+has been a broadly successful approach and is expected to continue well into the
+next decade.
+
+\section{Future Work}
+
+\subsection{Partitioning and Load Balancing}
+
+The ParMA load balancing algorithms that worked
+directly on unstructured meshes are being generalized to support applications
+that use a different mesh distribution (e.g., node partitions), or simply have
+information and dependencies between them that can be represented with a graph.
+EnGPar~\cite{engpar_github} will implement the ParMA diffusive
+algorithms and multi-level graph partitioning procedures using data-parallel
+operations on a graph structure using multiple edge-types to represent different
+application information dependencies.
+Efforts are underway to implement the diffusive algorithms and explore the use
+of the Kokkos~\cite{edwards2013kokkos} programming model for
+performance portability.
+
+\subsection{In-memory Component Coupling}
+
+Parallel system vendors have started to deploy an additional layer
+in the memory hierarchy between the parallel filesystem and main memory (DRAM)
+on each node.
+The additional layer is implemented by Cray DataWarp devices on the Cori
+XC40 system at the National Energy Research Scientific Computing Center.
+In the 2018-2019 Aurora system at the Argonne Leadership Computing Facility the
+layer will be implemented with Intel SSDs.
+By design, we expect transfer tests operating on the new layer to be slower
+than data streams and APIs operating out of DRAM or high bandwidth memory.
+However, depending on the locality of the SSD or DataWarp devices to compute
+nodes, the performance could vary significantly and should be evaluated.
+
+\subsection{Unstructured Mesh-Based Workflows}
+
+Application support using the PHASTA-PUMI and Albany-PUMI
+parallel in-memory workflows continues with a fluid structure interaction
+problem and an additive manufacturing analysis.
+In both cases the coupling approaches developed are reused while specific
+aspects of the finite element and mesh adaptivity components are modified.
+For PHASTA, developments are focused on implementing the discontinuous
+Galerkin method to account for interactions across the solid-gas interface.
+In the Albany additive manufacturing workflow the focus is on mesh
+adaptation methods to support the evolution of the geometry as layers of
+material are deposited.
+
+Ongoing interactions with industrial users are focused on two applications with
+evolving geometry.
+The first application is simulating flow in a gas filled chamber with a moving
+displacer.
+Implementation of this workflow requires combining mesh motion to track the
+moving geometry and mesh adaptation to maintain element quality.
+The second application uses MeshAdapt to support simulation of an underground
+reservoir with evolving geometry.

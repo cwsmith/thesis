@@ -1,0 +1,92 @@
+\section{Component Interactions} \label{sec:imp_Coupling}
+The design and implementation of procedures within existing software packages
+directly affects how they interact with other workflow procedures.
+Procedures provided by a given software package are often grouped by
+functionality into a component; a reusable unit of composition with a set of
+interfaces to query and modify encapsulated state
+information~\cite{Szyperski02}.
+The most interoperable, reusable, and extensible components are those with APIs,
+minimal dependencies, minimal exposure of symbols (e.g., through use of the
+unnamed namespace in C++ or the \texttt{static} prefix in C), and
+scoped interfaces (e.g., via C++ \texttt{namespaces} or function name prefixes),
+and no resource leaks~\cite{Miller2004,brownKnepleySmith,Gropp_1999}.
+Conversely, many legacy components (e.g., analysis codes) may simply have file or
+command line interfaces (i.e., they do not provide libraries with APIs) and
+have little control of the symbols and memory they use.
+The xSDK project formalizes these levels of interoperability and, from that,
+defines basic requirements of packages for inclusion in its
+ecosystem~\cite{xsdkPackagePolicies2016}.
+In Sections~\ref{sec:imp_phasta} through~\ref{sec:imp_omega3p} we discuss the
+design of three different analysis components and the impact of each design on
+coupling with an unstructured mesh adaptation component.
+
+In-memory component interactions are supported by bulk or atomic information
+transfers.
+A bulk transfer provides a large set of information following some provided
+format.
+For unstructured meshes this transfer could be an array of node-to-element
+connectivities passed from a mesh adaptation or generation procedure to an
+analysis code.
+Conversely, an atomic transfer provides a single, or highly localized, piece of
+information.
+Continuing the connectivity example, an atomic transfer would be the nodes
+bounding a single element.
+In Section~\ref{sec:imp_omega3p} we provide another atomic example that computes
+Jacobians of mesh elements classified on curved geometric model entities.
+
+Our approach for high performing and scalable component interactions avoids
+filesystem I/O by implementing bulk and atomic transfers with component APIs or
+data streams.
+Thus, component interactions in this work are within a single executable typically
+built from multiple libraries.
+Alternatively, the ADIOS tools provide a mechanism for the in-memory
+coupling of multiple executables~\cite{bennett2012combining,zhang2012enabling}.
+Likewise, Rasquin et al.~\cite{RasquinSC11Poster} demonstrated in-situ
+visualization with PHASTA (see Section~\ref{sec:imp_phasta}) and
+ParaView using GLEAN~\cite{glean2011}.
+
+The type of interaction chosen to couple a pair of components depends on their
+implementations.
+Components with APIs that encapsulate creation, deletion, and access to
+underlying data structures support in-memory interactions at different levels of
+granularity.
+At the finest level a developer may implement all atomic mesh entity query
+functions such that components can share the same mesh structure; trading
+increased development costs for lower memory usage.
+An excellent example of mesh data sharing is the use of octree structures in the
+development of parallel adaptive analyses~\cite{BursteddeWilcoxGhattas11}.
+At a coarser level, a developer may simply create another mesh representation (a
+bulk transfer) through use of interfaces encapsulating mesh construction;
+trading higher memory usage for lower development costs.
+Although this method will allow for in-memory integration, it can suffer from
+the same disadvantages as the former approach in that a significant amount of
+time and effort will be required for code modification and verification.
+A generalization of this coarser level approach defines common sets of
+interfaces through which all components interact.
+For example, in the rotorcraft aerodynamics community the HELIOS
+platform provides a set of analysis, meshing, adaptation, and load balancing
+components via the Python-based Software Integration
+Framework~\cite{sankaran2010application}.
+
+Components that support a common file format and use one file
+per process (e.g., POSIX C {\tt stdio.h}~\cite{posixstandard} or
+C++ {\tt iostream}) can use our data stream approach with minimal software
+changes.
+Here, the bulk transfer is taken to nearly its highest level; the exchange of
+process-level data sets.
+This approach is also a logical choice for legacy analysis codes that do not
+provide APIs to access or create their input and output data structures.
+
+Using a serialization framework like Google's FlatBuffers~\cite{flatbuffers}, or
+Cap'n Proto~\cite{varda2015cap}, also supports bulk data exchanges 
+through use of their APIs and data layout specification mechanism.
+Furthermore, some of these frameworks provide a `zero copy' mode that avoids
+encode and decode overheads; the serialized information can be directly accessed
+after transfer.
+Like the HELIOS approach, this approach is an interesting option for components
+that will be integrated with many others.
+
+Details for implementing the bulk and atomic transfers are given in the
+following sub-sections.
+\input{impCompInterfaces}
+\input{impDataStreams}

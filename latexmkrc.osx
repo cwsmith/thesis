@@ -1,0 +1,8 @@
+$latex="pdflatex -interaction errorstopmode %O %S";
+$bibtex="bibtex -min-crossrefs=20 %O %S";
+$out_dir = 'out';
+$pdf_mode=1;
+@default_files = ('cws-thesis.tex');
+$pdf_update_method = 4;
+$pdf_previewer = "./openSkim.sh %S";
+$pdf_update_command = "./updateSkim.sh %S";

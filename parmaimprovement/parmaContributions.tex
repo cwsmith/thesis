@@ -1,0 +1,24 @@
+Zhou's 2010 work~\cite{Zhou2010} defines the LIIPBMod algorithm for reducing
+vertex imbalance and the number of vertices on part boundaries while indirectly
+trying to limit the increase of element imbalance.
+In 2012, Zhou~\cite{zhou2012unstructured} executes a strong scaling study of a
+massively parallel computational fluid dynamics application using partitions
+created with (hyper)graph partitioners and LIIPBMod.
+Our work, ParMA, defines new algorithms for balancing all entity dimensions
+(vertices, edges, faces and regions), with weights, while reducing the number of
+vertices on the part boundaries, the number of disconnected components, and the
+average number of neighboring parts.
+ParMA developments were guided by Zhou's work for vertex balancing.
+
+Our work, relative to Zhou's, demonstrates multi-entity balancing on up to 3.5
+times more parts, 1Mi, with up to two times smaller parts, 1100 elements.
+Like Zhou, we focus on balancing tetrahedral meshes.
+We also support balancing mixed and other monotopological meshes (e.g., all
+quadrilaterals or all hexahedra).
+
+
+ParMA's implementation relies on the PUMI parallel unstructured mesh
+infrastructure, and inter-process communication algorithms detailed by Ibanez et
+al.~\cite{ibanez2016pumi}.
+We refer readers to this paper for details on the element migration procedure
+and neighborhood communications for information exchange.

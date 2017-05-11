@@ -1,0 +1,52 @@
+\section{Introduction}
+
+Simulations on massively parallel systems are most effective when data
+movement is minimized.
+Data movement costs increase with the depth of the memory hierarchy; a design
+trade-off for increased capacity.
+For example, the lowest level on-node storage in the IBM Blue Gene/Q A2
+processor~\cite{haring2012ibm} is the per core 16KiB L1 cache (excluding
+registers) and has a peak bandwidth of 819 GiB/s.
+The highest level on-node storage, 16GiB of DDR3 main memory, provides a million
+times more capacity but at a greatly reduced bandwidth of 43GiB/s,
+1/19$th$ of L1 cache~\cite{lo2014roofline}.
+One level further up the hierarchy is the parallel filesystem\footnote{For the
+sake of simplicity we assume that the main memory of other nodes is not
+available.
+But, there are checkpoint-restart methods that use local and remote memory for
+increased performance
+~\cite{rma-fault-tolerance-2014,compression-cr-2012}.
+}.
+At this level, the bandwidth and capacity relationship are again less favorable
+and further compromised by the fact that the filesystem is a shared resource.
+Table~\ref{tbl:systems} lists the per node peak main memory and filesystem
+bandwidth across five generations of Argonne National Laboratory leadership
+class systems: Blue Gene/L~\cite{yu2006high,adiga2002overview}, Intrepid
+Blue Gene/P~\cite{lang2009performance,alam2008early}, Mira
+Blue Gene/Q~\cite{haring2012ibm,bui2014scalable},
+Theta~\cite{knl,jeffers2016intel}, and 2018's Aurora~\cite{aurorafacts}.
+Based on these peak values the bandwidth gap between main memory and the
+filesystem is at least three orders of magnitude.
+Software must leverage the cache and main memory bandwidth performance advantage
+during as many workflow operations as possible to maximize performance.
+
+\begin{table}[h] \centering
+  \caption[
+  Per node main memory and filesystem peak bandwidth over five
+  generations of Argonne National Laboratory systems.
+  ]{Per node main memory and filesystem peak bandwidth over five
+  generations of Argonne National Laboratory systems.
+  The values in parentheses indicate the increase relative to
+  the previous generation system.}
+\label{tbl:systems}
+\begin{tabular}{l|cc}
+        & Memory BW  & Filesystem BW \\
+        & (GiB/s)    & (GiB/s)    \\
+ \hline
+ BG/L   & 5.6        & 0.0039         \\
+ BG/P   & 14 (2.4x)  & 0.0014 (0.36x)   \\
+ BG/Q   & 43 (3.1x)  & 0.0049 (3.5x) \\
+ Theta  & 450 (11x)  & 0.058 (12x) \\
+ Aurora & 600 (1.3x) & 0.020 (0.34x)
+\end{tabular}
+\end{table}

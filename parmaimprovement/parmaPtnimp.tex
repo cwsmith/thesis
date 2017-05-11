@@ -1,0 +1,44 @@
+ParMA reduces the peak imbalance of multiple entity dimensions by
+iteratively migrating some mesh elements from heavily loaded parts
+to neighboring parts with less load.
+The entity dimensions to balance are defined by an application specified priority
+list.
+For example, if element$>$vertex is specified then the algorithm prioritizes
+improvements to element balance over vertex balance.
+The greater-than relation indicates that element balance improvements are
+allowed to degrade the vertex balance, but vertex balance improvements cannot
+degrade the element balance.
+The balance of unlisted entity dimensions (edges and faces in this example) are not
+considered and may be degraded.
+If vertex$=$element is specified, then the algorithm considers the balance of mesh
+elements and vertices equally important.
+When equal priority is specified, the lower-dimension entities are processed
+first as improvements to their balance tends to improve the
+balance of the entities they bound (higher-dimension entities).
+The target imbalance for each listed entity dimension is specified by the
+application as $tgtImb^d$ where $d \leq d_{max}$ (the maximum dimension entity in a
+mesh).
+Applications which perform work on entities regardless of their ownership define
+the imbalance of a part, $I^d_p$, as the weight of mesh entities of dimension $d$
+existing on part $p$ divided by the average weight of dimension $d$ entities per
+part.
+The weight of a mesh entity is set to one when it is not specified by the
+application.
+The maximum imbalance of dimension $d$ entities across all parts is noted as
+$I^d$.
+
+ParMA iterative diffusion is executed for each specified entity dimension by
+descending priority.
+Iterations stop if the target imbalance ($tgtImb^d$) is reached, if no migration
+opportunities remain (discussed in Section~\ref{sec:stagnation}), or if a
+maximum number of iterations is reached.
+Each diffusive iteration has four steps~\cite{subramanian1994analysis}.
+First, neighboring parts exchange local information (e.g., the weight of
+mesh entities) using PCU neighborhood communication
+procedures~\cite{ibanez2016hybrid}.
+Next, each part determines how much load needs to be migrated and
+where it needs to go, targetting, and marks elements for migration, selection.
+The final step, migration, moves the marked elements to their defined
+destinations using the collective PUMI migration procedure~\cite{ibanez2016pumi}.
+
+The targeting and entity selection steps are detailed in the following sections.

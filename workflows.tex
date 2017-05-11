@@ -1,0 +1,39 @@
+\chapter{CONSTRUCTING PARALLEL ADAPTIVE WORKFLOWS}
+\blfootnote{Portions of this chapter previously appeared in:
+            \bibentry{shephard2013bringing}}
+\blfootnote{Portions of this chapter previously appeared in:
+            \bibentry{smithXsede15}}
+\label{chp:workflow}
+\subimport{workflows/}{wrkflwIntro}
+\subimport{workflows/}{wrkflwImpediments}
+\subimport{imp/}{impCompInteractions}
+\subimport{workflows/}{wrkflwComponents}
+
+\section{Summary}
+Parallel workflows for unstructured mesh-based, adaptive simulations are most
+effectively constructed from existing software components.
+Ideally, these components provide APIs that support bulk (sets of data
+over a significant portion of the domain on a given process) or atomic (sets of
+data over small sub-domains on a given process) queries and modification
+procedures to encapsulated state information.
+When the existing software component does not provide these APIs, or provides a
+very limited set of them, but supports POSIX file-based interactions, then the
+bulk transfer of data into and out of the component is well-supported by
+data streams.
+Components supporting these bulk and atomic transfers are easily coupled with
+other unstructured mesh-based components when their operations are based on a
+mesh classified against a geometric and partition model.
+PUMI uses this approach for its APIs that query and modify the mesh, its
+distribution across processes, and its relation to the geometric model.
+PUMI's unstructured mesh components include~\cite{ibanez2016pumi}:
+\begin{itemize}
+\item PCU - neighborhood-based non-blocking collective communication routines
+\item GMI - geometric modeling queries supporting discrete models
+  and, optionally, Parasolid, ACIS, and Simmetrix GeomSim models using
+  the Simmetrix SimModSuite library
+\item MDS - array-based modifiable mesh data structure
+\item APF\_MDS - partitioned mesh representation using MDS
+\item Field - describes the variation of tensor quantities over the domain
+\item ParMA - multi-criteria dynamic load balancing
+\item MeshAdapt - parallel, size field driven local refinement and coarsening.
+\end{itemize}

@@ -1,0 +1,86 @@
+\section{Introduction}
+The ability to apply algorithmic or mathematical advances to a particular
+simulation depends on the coupling of those procedures with existing
+simulation-based engineering tools.
+Solving the most advanced examples of these simulations for real-world problems
+of interest requires more memory than is available on a single workstation or
+server.
+Thus, parallel workflows that operate effectively on distributed memory
+parallel systems are needed.
+
+\section{The Current State-of-the-Art}
+
+Advances in hardware and algorithms have provided many orders of magnitude
+improvement in the ability to perform large-scale simulations.
+Combined, these advances enable parallel simulations to operate efficiently on
+the largest petascale computers (e.g., unstructured mesh CFD software that
+scales to over 768,000 cores~\cite{rasquinCise2014}).
+As plans to move to exascale computing are carried out~\cite{Exa10} though, it
+is clear that the inability to effectively increase CPU clock rates requires all
+truly large-scale computations be performed on massively parallel computers.
+These future massively parallel computers will be more heterogeneous and
+therefore more complex to program.
+On the positive side, progress on the development of next generation massively
+parallel computers is leading to systems that are much more cost effective to
+purchase, power, and maintain.
+This means an increased ability to cost effectively employ the most
+computationally intense simulations in engineering design processes, assuming the
+required software tools and methods of applying the software are available.
+
+The national laboratories, particularly the U.S. Department of Energy (DOE) with
+programs like SciDAC's FASTMath and the Exascale Computing Project, are actively
+developing new generations of software that can effectively operate on massively
+parallel computers.
+These developments include simulation tools for DOE applications and
+software that aid in the development of large-scale simulation tools.
+Three examples of different classes of tools that help support the development of
+parallel simulations are:
+Trilinos~\cite{TrilinosOverview} is an infrastructure of over 50 composable
+packages that can be used to construct large-scale, multi-physics
+simulations.
+The Portable, Extensible Toolkit for Scientific Computation
+(PETSc)~\cite{petsc-web-page} is known primarily for its set of linear, and
+non-linear, algebraic system equation solvers that have been integrated into
+numerous simulation codes.
+Zoltan~\cite{devine2002zoltan} is a parallel load balancing service
+that interacts with application data to determine how to distribute it for the
+most effective parallel execution.
+In addition, there are many parallel analysis procedures developed
+that execute specific simulations produced by DOE and Department of Defence
+laboratories.
+These primarily open source software packages are beginning to receive increased
+attention by industry and, to some extent, independent software vendors (ISVs).
+Although the open source nature of such software is attractive, the majority of
+these software packages are developed and supported by small teams that are most
+often focused on the advancement of a specific science application.
+These packages typically include specialized features designed for use by
+domain experts, are complex to integrate into simulation workflows, and lack
+adequate support systems for broad use.
+Some packages though, have been made more generally usable and are
+supported by more substantial developer and user teams.
+However, the ability of those teams to continue to provide long-term support
+through government R\&D budgets is a complex issue and not guaranteed.
+
+The maturation of computer-aided design (CAD) and computer-aided engineering (CAE)
+technologies have made engineering simulations
+a cornerstone in the design and manufacture of products ranging from aerospace
+vehicles, to consumer goods, to medical devices.
+The key CAD/CAE tools being used in these processes include geometric design,
+analysis model generation, engineering analysis and visualization.
+Over the past several years an increasing number of these engineering analysis
+packages execute in parallel.
+In some cases, parallelism has focused on taking advantage of higher core count
+shared memory workstations and do not address distributed memory methods as
+needed for inter-node parallelism on massively parallel computers.
+Those that have addressed the distributed parallelism needs typically had to
+develop new versions of the code to gain any reasonable level of scalability.
+However, these new codes, at least initially, have a limited set of
+functionalities as compared to the existing more fully featured codes that have
+been under development for many years.
+
+Some CAE oriented ISVs have begun to develop new generations of software that
+employ data structures and algorithms that allow them to operate and, for
+the computationally intensive portions, scale on massively parallel computers.
+In addition, some of this software is designed with sufficient modularity to
+support interactions through easy to use interfaces such that users can combine
+procedures from multiple sources to meet their simulation needs.

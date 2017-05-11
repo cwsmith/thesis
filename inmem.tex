@@ -1,0 +1,33 @@
+\chapter{IN-MEMORY INTEGRATION OF EXISTING SOFTWARE COMPONENTS FOR PARALLEL
+ADAPTIVE UNSTRUCTURED MESH WORKFLOWS}
+\label{chp:inmem}
+\blfootnote{Portions of this chapter have been submitted to:
+            \bibentry{smith2017building}}
+\subimport{imp/}{impIntro}
+This chapter presents the use of in-memory component coupling techniques that
+avoid filesystem use for three different unstructured mesh-based, parallel,
+adaptive workflows.
+These demonstrations highlight the need for in-memory coupling techniques that
+are compatible with the design and execution of the analysis software involved.
+Key to this compatibility is supporting two interaction modes: bulk and
+atomic information transfers.
+
+\section{PHASTA}\label{sec:imp_phasta}
+\subimport{imp/}{impPhasta}
+\subimport{imp/}{impPhastaDambreak}
+\subimport{imp/}{impPhastaPerformance}
+\section{Albany Solderball}\label{sec:imp_albany}
+\subimport{imp/}{impAlbany}
+\subimport{imp/}{impAlbanySolderball}
+\section{Omega3P Cavity Frequency Analysis}\label{sec:imp_omega3p}
+\subimport{imp/}{impOmega3p}
+
+\section{Summary}
+In-memory parallel adaptive workflows for three applications have been
+demonstrated using bulk data streams, bulk APIs, and a combination of bulk and
+atomic APIs.
+The in-memory transfer of data was significantly faster than
+file-based transfers for PHASTA and Albany, while the memory overhead for Omega3P
+was insignificant.
+Key to the three couplings was the use of PUMI's component APIs for queries to, and
+modifications of, the mesh, its partitioning, and its associated fields.

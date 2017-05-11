@@ -1,0 +1,65 @@
+Albany~\cite{salinger2013albany,albany2016} is a parallel, implicit,
+unstructured mesh, multi-physics, finite element code used for the solution and analysis of partial
+differential equations.
+The code is built on over 100 software components and heavily leverages packages
+from the Trilinos project~\cite{TrilinosOverview}.
+Both Albany and Trilinos adopt an `agile components' approach
+to software development that emphasizes interoperability.
+Albany has been used to solve a variety of multi-physics problems
+including ice sheet modeling and modeling the mechanical response of nuclear
+reactor fuel.
+The largest Albany runs have had over a billion degrees of freedom and
+used over 32Ki cores.
+Albany's high performance, generality, and component-based design made it an
+ideal candidate for the construction of an in-memory adaptive workflow using
+bulk API-based transfers.
+
+The Albany analysis code provides an abstract base class for the mesh
+discretization.
+Implementing the class with PUMI's complete topological mesh representation
+simply required understanding Albany's discretization structures.
+Like most finite element codes, Albany stores a list of mesh
+nodes and a node-to-element connectivity map to define mesh elements.
+Albany's Dirichlet and Neumann boundary conditions though, need additional data
+structures.
+The Dirichlet boundary condition data structure is simply an array of
+constrained mesh nodes.
+The more complex Neumann boundary condition structure requires lists of mesh
+elements associated with constrained mesh faces; a classification check followed
+by a face-to-element upward adjacency query.
+Algorithm~\ref{alg:sidesets} details this process.
+Here the notation $M^d_j$ ($G^d_j$) refers to the $j^{th}$ mesh (model)
+entity of dimension $d$,
+$M^d_j \sqsubset G$ returns the geometric model classification of $M^d_j$, and
+$\{M^d_i\{M^q\}\}$ is the set of mesh entities of dimension $q$ that are
+adjacent to $M^d_i$.
+The PUMI implementation of Albany's discretization and boundary
+condition structures allows us to define and solve complex problems without
+having to create a second complex mesh data structure (e.g., a Trilinos STK
+mesh).
+
+\begin{algorithm}
+  \caption{Construction of Neumann Boundary Condition Structure}
+  \label{alg:sidesets}
+  \begin{algorithmic}[1]
+    \State // store the mapping of geometric model faces to \texttt{side\_sets}
+    \State \texttt{invMap} $\gets$ mapping of $G^2_j$ to \texttt{side\_sets}
+    \ForAll{ $M^2_i$ $\in$ $\{M^2\}$ }
+        \State // get the geometric model classification of the mesh face
+        \State $G^d_j$ $\gets$ $M^2_i \sqsubset G$
+        \If{ $G^d_j$ $\notin$ \texttt{invMap}}
+          \State // not a geometric model face associated with a \texttt{side\_set}
+          \State continue
+        \EndIf
+        \State // for simplicity of the example we assume the model is manifold
+        \State // upward adjacent element to the mesh face
+        \State $M^3_j$ $\gets$ $\{M^2_i\{M^3\}\}$
+        \State // collect additional element and face info
+        \State \texttt{elm\_LID} $\gets$ local id of $M^3_j$
+        \State \texttt{side\_id} $\gets$ local face index of $M^2_i$
+        \State \texttt{side\_struct} $\gets$
+               \{\texttt{elm\_LID},\texttt{side\_id},$M^3_j$\}
+        \State insert \texttt{side\_struct} into \texttt{side\_set\_list}
+      \EndFor
+  \end{algorithmic}
+\end{algorithm}

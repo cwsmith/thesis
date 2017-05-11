@@ -1,0 +1,69 @@
+\chapter{IMPROVING UNSTRUCTURED MESH PARTITIONS FOR MULTIPLE CRITERIA USING MESH
+ADJACENCIES}
+\label{chp:ptnImprovement}
+\blfootnote{Portions of this chapter have been submitted to:
+C.~W. Smith, M.~Rasquin, D.~Ibanez, K.~E. Jansen, and M.~S. Shephard,
+  ``Improving unstructured mesh partitions for multiple criteria using mesh
+  adjacencies,'' submitted for publication.
+}
+
+\section{Introduction}
+Parallel simulation-based engineering workflows using unstructured meshes
+require adaptive methods to ensure reliability and
+efficiency~\cite{shephard2013bringing}.
+Starting with a problem specification on a geometric model~\cite{OBaBea,SheBea},
+an effective workflow automatically executes parallel mesh
+generation~\cite{tendulkar2011parallel}, analysis, and analysis-based
+mesh~\cite{chitale2014anisotropic,Sahn06} and/or
+model~\cite{ramm2003error} adaptation.
+The analyze-adapt cycle is repeated until a desired level of solution accuracy
+is reached.
+Between each step in the cycle is an opportunity to improve scalability and
+efficiency through dynamic partitioning.
+
+Current dynamic load balancing methods do not effectively reduce imbalances to
+the levels needed by applications capable of strong scaling to the full size of
+leadership class petascale systems.
+This chapter presents a scalable approach that quickly reaches the required
+imbalance levels for multiple criteria by pairing Partitioning using Mesh
+Adjacencies (ParMA) with current partitioning methods.
+
+\subimport{parmaimprovement/}{parmaSummaryThesis}
+
+\section{Unstructured Mesh Partitioning} \label{sec:partitioning}
+\subimport{parmaimprovement/}{parmaBackground}
+
+\section{Dynamic Partitioning Requirements} \label{sec:requirements}
+\subimport{parmaimprovement/}{parmaRequirements}
+
+\section{Partitioned Mesh Representation} \label{sec:pumi}
+\subimport{parmaimprovement/}{parmaPtnmesh}
+
+\section{Partition Improvement} \label{sec:parma}
+\subimport{parmaimprovement/}{parmaPtnimp}
+
+\section{Targeting} \label{sec:targeting}
+\subimport{parmaimprovement/}{parmaTargets}
+
+\section{Entity Selection} \label{sec:entSelection}
+\subimport{parmaimprovement/}{parmaSelection}
+
+\section{Results} \label{sec:results}
+\subimport{parmaimprovement/}{parmaResults}
+
+\section{Summary}
+ParMA enables scalable data transformations within components by providing fast,
+multi-criteria, dynamic load balancing procedures that execute efficiently on
+over one million cores of leadership-class parallel systems.
+These procedures rely on part-level (graph distance) and
+entity-level (cavity size, surface area) heuristics to define the traversal
+order over the part boundary, which elements to select for migration, and the
+destination part that should receive the elements.
+In addition to the selection heuristics are mechanisms to reject migration
+requests if they harm the imbalance of higher priority mesh entities
+(cancellation) and to gracefully stop ParMA if beneficial changes can no longer
+be made (stagnation avoidance).
+The net result of these efforts is a load balancing method that outperforms the
+previous versions of the approach (LIIPBMod) in quality and run time, and,
+versus a leading graph-based method, improves performance of a massively
+parallel CFD code at 512Ki processors by 28\%.

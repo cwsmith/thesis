@@ -1,0 +1,33 @@
+\specialhead{ABSTRACT}
+High performance parallel adaptive simulations operating on leadership class
+systems are constructed from multiple pieces of software developed over many
+years.
+As increasingly complex systems are deployed new methods must be created to
+extract performance and scalability.
+This thesis addresses two key scalability limitations for unstructured
+mesh-based simulations.
+
+Attaining simulation performance at ever higher concurrency levels requires
+increasing the performance of transformations within each procedure, as well as the
+transfer of data between procedures.
+
+Controlling the transformations requires distributing the work evenly across the
+processors while executing efficient data transfers requires local operations
+that avoid shared or contended resources.
+This thesis addresses these requirements through multi-criteria load balancing
+procedures and in-memory data transfer techniques.
+
+Partition improvement methods defined in this work enable improved application
+strong scaling on over one million processors through careful control of the
+balancing requirements.
+Applied to a computational fluid dynamics simulation running on 524,288
+processes with 1.2 billion elements these methods reduce the time of the
+dominant computational step by up to 28\% versus the best existing methods.
+
+The scalable data transfer requirement is addressed through an
+in-memory functional coupling that avoids the high cost of fileystem access.
+The methods developed are applied to adaptive simulations in which
+the time required for information exchange is reduced by over an
+order of magnitude versus file-based couplings.
+Three additional simulations for industrial applications are then provided that
+highlight an in-memory coupling and the automation of key simulation processes.

@@ -1,0 +1,29 @@
+PHASTA solves complex fluid flow
+problems~\cite{Gal10,Rod13,sahni2009scalable,Zhou-flow,phasta_github}
+on up to 768Ki cores with 3Mi ($3*2^{20}$) MPI processes~\cite{rasquinCise2014} using a
+stabilized finite element method~\cite{WhiJan01} primarily implemented with
+FORTRAN77 and FORTRAN90.
+Support for mesh adaptivity, dynamic load balancing, and reordering has
+previously been provided by the C++ PUMI-based component,
+chef, through file I/O.
+This file-based coupling uses a format and procedures that were originally
+developed over a decade ago.
+Our work adds support for PHASTA and chef in-memory bulk data stream transfers.
+We show performance of this approach with a multi-cycle test using a fixed
+size mesh and present an adaptive, two-phase dam-break analysis.
+
+The data stream approach for in-memory interactions was the logical choice
+given the existing POSIX file support, and the lack of PHASTA
+interfaces to modify FORTRAN data structures.
+The chef and PHASTA data stream implementation maintains
+support for POSIX file-based I/O by replacing direct calls to POSIX file open,
+read and write routines with function pointers.
+
+Our work also adds a few execution control APIs to run PHASTA within
+an adaptive workflow.
+The API implementation uses the singleton design
+pattern~\cite{andreiDesignPatterns} and several of Miller's Smart Library
+techniques~\cite{Miller2004}.
+This approach provides backward compatibility for legacy execution modes,
+such as scripted file-based adaptive loops, with minimal code changes and easily
+accounts for the heavy reliance on global data common to legacy FORTRAN codes.
