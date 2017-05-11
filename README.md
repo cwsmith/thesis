@@ -1,10 +1,12 @@
 #clone the repos listed as submodules
+
 ```
 git submodule init
 git submodule update
 ```
 
 #build
+
 ```
 latexmk -r latexmkrc.<OS>
 latexmk -pdf -outdir=anc announcement_wrapper
