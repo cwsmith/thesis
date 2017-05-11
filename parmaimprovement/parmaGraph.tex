@@ -1,0 +1,36 @@
+Graph-based partitioning methods define an assignment of weighted graph
+nodes to $k$ parts such that each part has the same total weight and the
+inter-part communication costs are minimized.
+A graph is constructed from an unstructured mesh by selecting one dimension of mesh
+entity (i.e., vertices, edges, faces, or regions) to define graph nodes, and one mesh
+adjacency between the selected entity dimension to define graph edges.
+At a higher level, the goal of this selection is to represent a work unit with
+the graph node and an information dependency between two work units by a graph
+edge.
+3D element-based finite element and finite volume codes typically select mesh
+regions for graph nodes and mesh faces shared by elements for graph edges.
+This selection results in the unique assignment of mesh regions to parts,
+which enables efficient local execution of element-level
+computations~\cite{hughes2012finite}.
+
+Parallel, multi-level, graph-based partitioning methods produce
+high quality partitions with tens of thousands of parts in a fraction of the
+time needed by most analysis
+procedures~\cite{catalyurek2013umpa,karypis1999parallel, lasalle2013multi,
+schloegel2002parallel}.
+One approach to generalize these methods to represent more complex information
+dependencies uses hypergraphs.
+A hypergraph is defined as a set of weighted nodes and hyperedges.
+Hyperedges differ from graph edges in that they represent dependencies
+between multiple graph nodes and, in doing so, have the ability to better
+model the communication costs of an
+application~\cite{catalyurek1999hypergraph,catalyurek2009repartitioning}.
+As with graph-based partitioning, the goal of hypergraph partitioning is to
+balance the node weight across the $k$ parts while minimizing a
+hyperedge-based objective function.
+Boman and Devine propose constructing the hypergraph from an unstructured mesh
+by creating one hypergraph node for each mesh region (in 3D), as is done in the
+graph-based construction, and a hyperedge connecting the mesh regions
+bounded by each mesh vertex.  %this technique was not published
+This richer representation results in algorithms that are more compute and memory
+intensive relative to graph-based methods.
