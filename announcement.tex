@@ -1,0 +1,39 @@
+\noindent Title: Improving Scalability of Parallel Unstructured Mesh-based Adaptive Workflows\\
+Author: Cameron W. Smith\\
+Advisor: Mark S. Shephard\\
+Date: Thursday April 6th, 2017 at 2pm\\
+Location: CII 4003
+
+Parallel adaptive unstructured mesh based simulations are most effectively
+implemented using multiple existing software components.
+At scale, performance bottlenecks can exist within a component or during the
+transformation and transfer of data between them.
+The thesis addresses these limitations with massively parallel load balancing
+and in-memory inter-component data transfer methods.
+
+Given an existing mesh distribution across the processes running on a parallel system,
+a partition, dynamic load balancing methods determine which mesh elements should
+be moved between processes to reduce the imbalance and communication costs.
+For part counts numbering in the tens of thousands, multi-level methods
+operating on the dual graph of the mesh are sufficient, but beyond this
+concurrency level these methods often fail due to memory usage that increases
+significantly with process count.
+The goal of the Partitioning using Mesh Adjacencies, ParMA, software is to
+perform efficient multi criteria dynamic load balancing of unstructured meshes
+by directly using the existing mesh adjacency information.
+Results will demonstrate the ability of ParMA to dynamically re-balance meshes
+for multiple criteria with billions of mesh regions on over one million
+processors.
+
+In massively parallel simulations requiring frequent adaptation, the reading and
+writing of files between component executions introduces significant
+computational overheads largely due to the latency of writing and reading to disk.
+Thus, interfacing simulation components without files for adaptation greatly
+increases the performance of the application.
+An in-memory coupling approach using data streams that mimic the use of files
+and limit code modifications will be discussed and demonstrated for a monolithic
+mixed C/C++ and FORTRAN based computational fluid dynamics (CFD) analysis code,
+a C++ hp-adaptive finite element framework for linear accelerator frequency
+analysis, and a C++ multi-physics framework.
+Scaling results to 16Ki processes are provided for the coupling of the CFD
+analysis code with a mesh adaptation component.
