@@ -1,0 +1,7 @@
+$pdflatex="pdflatex -shell-escape -interaction errorstopmode %O %S";
+$out_dir = 'out';
+$pdf_mode=1;
+@default_files = ('presentation.tex');
+$pdf_update_method = 4;
+$pdf_previewer = "./openSkim.sh %S";
+$pdf_update_command = "./updateSkim.sh %S";

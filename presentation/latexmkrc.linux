@@ -1,0 +1,5 @@
+$pdflatex="pdflatex -file-line-error -shell-escape -interaction errorstopmode %O %S";
+$out_dir = 'out';
+$pdf_mode=1;
+@default_files = ('presentation.tex');
+$pdf_previewer = 'zathura %S';
