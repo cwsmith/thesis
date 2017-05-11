@@ -1,0 +1,3 @@
+[submodule "scorec-refs"]
+	path = scorec-refs
+	url = git@github.com:SCOREC/scorec-refs.git
