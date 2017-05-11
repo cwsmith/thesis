@@ -1,0 +1,45 @@
+Geometric methods represent information via spatial coordinates, and
+relations via distance; the closer two pieces of information
+are the stronger their relation.
+The exclusive use of coordinate information significantly reduces the memory
+requirements of these methods relative to (hyper)graph methods that rely on
+topological relations~\cite{harlacherMortonSFCvsParmetis2012}.
+Along with the lower memory cost, the spatial sorting procedures used by
+geometric methods are also computationally cheaper than the topological traversals
+needed by graph methods.
+The lower computational and memory usage costs come at the expense of
+significant increases in inter-part
+communications~\cite{schambergerSFCpartition2005}.
+For applications that require frequent balancing through, the resulting
+communication overheads may be offset by the time saved computing the partition
+~\cite{harlacherMortonSFCvsParmetis2012}.
+
+Geometric recursive sectioning methods can quickly compute well-balanced
+partitions for a single entity dimension
+~\cite{zoltan2,devineMultiJagged2015,SauleJagged2012,TaylorRIB,williamsRIB}.
+Recursive coordinate~\cite{bergerRib1987} (RCB) and inertial
+~\cite{simon1991partitioning,TaylorRIB,williamsRIB}
+bisection (RIB) methods
+recursively cut the parent domain; RCB along a coordinate axis and RIB
+perpendicular to the parent domain's principal direction.
+Multi-sectioning techniques~\cite{devineMultiJagged2015,SauleJagged2012} can be
+considered extensions of the recursive coordinate bisection methods as they
+define cuts along coordinate axis, but do so with multiple parallel cut planes
+at each recursion.
+
+Partitioning methods using space-filling curves (SFC) produce partitions
+of similar quality to RCB and RIB.
+For 3D unstructured meshes Hilbert~\cite{skilling2004programming} and Morton
+curves have been used effectively by the Zoltan~\cite{devine2005new}
+and SPartA~\cite{harlacherMortonSFCvsParmetis2012} packages,
+respectively.
+Given the simplicity of SFC partitioning methods (encoding, sorting, then
+splitting) a high degree of on-node and inter-node concurrency is possible.
+For example, a constant time Hilbert curve encoding procedure (spatial
+coordinates to curve position)~\cite{skilling2004programming} and its subsequent
+sorting has been demonstrated on shared-memory devices using a data-parallel
+implementation~\cite{ibanezthesis} and a two-collective splitting approach is
+used by SParTA.
+As an added benefit, sorting provides a cache efficient layout
+of the mesh entities for subsequent mesh-based operations that benefit from
+topological locality~\cite{gpsReordering1976,zhou2010adjacency}.

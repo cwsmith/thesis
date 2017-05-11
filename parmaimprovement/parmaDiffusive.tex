@@ -1,0 +1,19 @@
+Diffusive partitioning methods efficiently improve an existing partition
+by transferring load between neighboring parts.
+Load transfer can be coordinated globally or locally.
+Global load transfer selects elements to minimize either the total
+weight of transferred elements, or the maximum weight transferred in to or out
+from a part
+\cite{hu1999improved,Hu1998,meyerhenke2009graph,ou1994parallel,schloegel1997multilevel,schloegel2001wavefront,walshaw1995dynamic}.
+Alternatively, local load transfer iteratively moves elements from heavily loaded to
+less loaded parts
+~\cite{subramanian1994analysis,cybenko1989dynamic,schloegel1997multilevel,willebeek1993strategies}.
+This approach can have significantly lower overall computational costs if
+the total amount of transferred load is controlled.
+Control is typically exerted through greedy heuristics.
+These heuristics first determine the amount of load to transfer between
+neighboring parts, and then select elements to satisfy the transfer requirement.
+Fiduccia~\cite{Fiduccia1982} and Kernighan~\cite{Kernighan1970} proposed
+selecting elements based on the subsequent part quality improvement.
+In Zhou's work these methods are shown to be highly scalable given a
+distributed mesh representation~\cite{Zhou2010,zhou2012unstructured}.

@@ -1,0 +1,35 @@
+\subsection{Component Interfaces}\label{sec:imp_Interfaces}
+The components in adaptive simulations that provide geometric model, mesh, and
+field information~\cite{BeaWal,ibanez2016pumi,Ollivier10}, and the relations
+between them, are essential to error estimation,
+adaptation~\cite{park2008parallel,loseille2015parallel,kirk2006libmesh}, and
+load balancing~\cite{SmithParma2015} services.
+For example, transferring field tensors during mesh adaptation requires the
+field-to-mesh relation~\cite{farrell2009conservative}.
+Likewise, the mesh-to-model relation, typically called classification, and
+geometric model shape information enable mesh modifications (e.g., vertex
+re-positioning) that are consistent with the actual geometric
+domain~\cite{BeaWal}.
+The other common interactions of the mesh with the geometric domain
+is in the transformation of the input field tensors onto the
+mesh to define the boundary conditions, material parameters and initial
+conditions~\cite{OBaBea}.
+Because of this strong dependency, we provide these components and services
+together as the open-source Parallel Unstructured Mesh Infrastructure
+(PUMI)~\cite{ibanez2016pumi,pumi_github}.
+
+A good example of advanced component interface usage is the PUMI
+Superconvergent Patch Recovery (SPR) error estimation component.
+The SPR routines estimate solution error by constructing an improved
+finite element solution using a patch-level Zienkiewicz-Zhu~\cite{zz2} least
+squares data fit.
+SPR provides two methods which use the patch-recovery routines.
+The first method recovers discontinuous solution gradients over a patch of
+elements and approximates an improved solution by fitting a continuous solution
+over the elemental patch.
+The second method provides an improved solution in much the same way as the
+first, but operates directly on integration point information obtained by the
+finite element analysis.
+For both methods, the improved and primal solutions are then used to create a
+mesh size field that is passed to MeshAdapt to
+guide mesh modification operations~\cite{alauzet2006parallel,frey2005}.

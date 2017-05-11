@@ -1,0 +1,26 @@
+\subsection{Data Streams} \label{sec:imp_DataStreams}
+Components can pass information and avoid expensive filesystem operations
+through the use of buffer-based data streams.
+This approach is best suited for components already using
+POSIX C \texttt{stdio.h}~\cite{posixstandard}
+or C++ \texttt{iostream} String Stream APIs~\cite{langer2000standard}
+as the code changes required are minimal.
+The key changes entail passing buffer pointers during the opening and closing of
+the stream, and adding control logic to enable stream use.
+
+In a component using the POSIX APIs, a data stream buffer is opened with either
+the \texttt{fmemopen} or \texttt{open\_memstream} functions from \texttt{stdio.h}.
+\texttt{open\_memstream} only supports write operations and automatically
+grows as needed.
+\texttt{fmemopen} supports reading and writing, but uses a fixed size, user
+specified, buffer.
+Once the buffer is created file read and write operations are performed through
+POSIX APIs accepting the \texttt{FILE} pointer returned by the buffer opening
+functions; i.e., \texttt{fread}, \texttt{fwrite}, \texttt{fscanf},
+\texttt{fprintf}, etc.
+After all read or write operations are complete and \texttt{fclose} is called
+the buffer created with \texttt{fmemopen} is automatically deallocated.
+An \texttt{open\_memstream} created buffer requires the user to deallocate it.
+
+Example uses of the POSIX C and C++ \texttt{iostream} APIs are located in the
+Appendix.
