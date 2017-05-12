@@ -16,13 +16,19 @@ latexmk -r latexmkrc.<OS>
 
 # Create a diff marked pdf
 
+## download latexpand
+
+```
+git clone git@gitlab.com:latexpand/latexpand.git
+```
+
 ## download git-latexdiff
 
 wget https://gitlab.com/git-latexdiff/git-latexdiff/raw/master/git-latexdiff
 
 make it executable
 ```
-chmod +x get-latexdiff
+chmod +x git-latexdiff
 ```
 
 ## run the diff script
@@ -30,14 +36,14 @@ chmod +x get-latexdiff
 ./scripts/do_gitlatexdiff.sh <old sha1> <new sha1>
 ```
 
-## find active references
+# find active references
 First, build the document so that out/cws-thesis.bbl exists.  Then, run the
 following script from the thesis directory:
 ```
 ./scripts/getActiveRefs.sh
 ```
 
-## check references
+# check references
 Run the following scripts to create tex files with each type of reference:
 ```
 ./scripts/getActiveRefs.sh  > refs.txt
@@ -49,7 +55,7 @@ latexmk -r latexmkrc.refs.linux
 ```
 
 
-## find grammer issues
+# find grammer issues
 First, install language tool as described here:
 https://danious.wordpress.com/2013/10/07/grammar-latex/
 
