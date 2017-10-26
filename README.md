@@ -22,6 +22,12 @@ latexmk -r latexmkrc.<OS>
 git clone git@gitlab.com:latexpand/latexpand.git
 ```
 
+and add it to your PATH
+
+```
+export PATH=$PWD/latexpand/:$PATH
+```
+
 ## download git-latexdiff
 
 wget https://gitlab.com/git-latexdiff/git-latexdiff/raw/master/git-latexdiff
